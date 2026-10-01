@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>MediLocker — Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head>
+<body class="login-page"><header class="site-header"><a class="brand" href="index.html"><img src="logo-icon.png" class="brand-icon" alt="MediLocker"><span>Medi<span>Locker</span></span></a><div class="header-actions"><button class="location-btn" id="locationBtn">⌖ <span data-i18n="setLocation">Set location</span></button><select id="languageSelect"><option value="en">English</option><option value="bn">বাংলা</option><option value="hi">हिन्दी</option><option value="mr">मराठी</option><option value="ur">اردو</option><option value="pa">ਪੰਜਾਬੀ</option><option value="kn">ಕನ್ನಡ</option></select></div></header>
+<main class="login-shell"><section class="login-intro"><span class="eyebrow" data-i18n="welcome">WELCOME TO MEDILOCKER</span><h1 data-i18n="choosePortal">Choose your care portal.</h1><p data-i18n="portalText">Every role gets a focused experience, while the patient's medical story remains at the center.</p></section>
+<section class="login-card"><div class="role-tabs"><button class="role-tab active" data-role="patient" data-i18n="patient">Patient</button><button class="role-tab" data-role="doctor" data-i18n="doctor">Doctor</button><button class="role-tab" data-role="hospital" data-i18n="hospital">Hospital</button></div>
+<div class="login-heading"><span class="role-symbol" id="roleSymbol">♡</span><h2 id="loginTitle">Patient login</h2></div><p class="login-subtitle" id="loginSubtitle">Sign in to manage your medical records and medication routine.</p>
+<form id="loginForm">
+  <label><span data-i18n="email">Email address</span><input type="email" required placeholder="you@example.com" autocomplete="email"></label>
+  
+  <div style="margin:12px 0 8px;">
+    <span style="font-size:13px;font-weight:700;color:var(--plum);display:block;margin-bottom:6px;">Sign in using:</span>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f5edf9;padding:4px;border-radius:10px;">
+      <button type="button" id="tabLoginPassword" class="login-auth-tab" style="padding:8px;border-radius:8px;border:none;font-weight:700;font-size:13px;cursor:pointer;background:#2b1836;color:#fff;">🔑 Password</button>
+      <button type="button" id="tabLoginUnit" class="login-auth-tab" style="padding:8px;border-radius:8px;border:none;font-weight:700;font-size:13px;cursor:pointer;background:transparent;color:#6b5a7d;">🪪 Unit ID</button>
+    </div>
+  </div>
+
+  <label id="passwordField"><span data-i18n="password">Password</span><input id="loginPassword" type="password" placeholder="••••••••" autocomplete="current-password"></label>
+  <label id="unitField" class="hidden"><span data-i18n="unitId">Unique Unit ID</span><input id="unitId" type="text" placeholder="ML-XXXX-XXXX" autocomplete="off"></label>
+  
+  <p style="font-size:12px;color:var(--muted);margin:4px 0 16px;">💡 You can log in using either your account password or your registered Unit ID.</p>
+  
+  <button class="primary-btn full" type="submit" data-i18n="continue">Sign in ↗</button>
+  <p class="signup-prompt"><span data-i18n="newHere">New to MediLocker?</span> <a href="signup.html" data-i18n="signUp">Create your account →</a></p>
+</form></section></main>
+<footer><span>© 2026 MediLocker</span><span data-i18n="footer">A digital home for organized healthcare.</span><span>Developed by Peak Constructors --Tridibesh Sen</span></footer>
+<script src="js/i18n.js"></script><script src="js/main.js"></script></body></html>

@@ -1,0 +1,63 @@
+{
+  "name": "medilocker-backend",
+  "version": "1.0.0",
+  "description": "MediLocker Backend API - Sovereign Digital Medical Records Vault with Medi-AI",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "postinstall": "prisma generate",
+    "build": "prisma generate && tsc",
+    "start": "node dist/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:push": "prisma db push",
+    "prisma:studio": "prisma studio"
+  },
+  "keywords": [
+    "healthcare",
+    "ehr",
+    "digilocker",
+    "ai",
+    "gemini",
+    "webauthn",
+    "prisma",
+    "express"
+  ],
+  "author": "MediLocker Engineering Team",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@prisma/client": "^5.14.0",
+    "@simplewebauthn/server": "^9.0.3",
+    "@supabase/supabase-js": "^2.115.0",
+    "@upstash/redis": "^1.31.2",
+    "argon2": "^0.40.1",
+    "cloudinary": "^2.2.0",
+    "compression": "^1.8.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^8.7.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^10.0.3",
+    "pdf-lib": "^1.17.1",
+    "zod": "^3.23.8",
+    "@types/compression": "^1.8.1",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.12.12",
+    "@types/node-cron": "^3.0.11",
+    "@types/nodemailer": "^8.0.1",
+    "prisma": "^5.14.0",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^2.0.0"
+  }
+}
+

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MediLocker — 30-Second Vaidya OPD Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body.vaidya-theme {
+      background: #0b1120;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .vaidya-workspace {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+    .vaidya-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 16px 24px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    .vaidya-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .vaidya-symbol {
+      font-size: 32px;
+    }
+    .vaidya-brand h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 2px;
+      color: #fff;
+    }
+    .vaidya-brand p {
+      font-size: 13px;
+      color: #94a3b8;
+      margin: 0;
+    }
+    .patient-search-box {
+      display: flex;
+      gap: 10px;
+    }
+    .patient-search-box input {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 10px 16px;
+      color: #fff;
+      font-size: 14px;
+      width: 260px;
+    }
+    .vaidya-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .patient-banner-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    .patient-id-cluster {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .patient-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: #0284c7;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+    }
+    .patient-id-cluster h3 {
+      margin: 0 0 2px;
+      font-size: 18px;
+    }
+    .patient-submeta {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .allergy-risk-capsule {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .red-flag-indicator {
+      padding: 8px 18px;
+      border-radius: 12px;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .red-flag-indicator.alert-safe {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+    .red-flag-indicator.alert-active {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #f87171;
+    }
+    .vaidya-columns-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .vaidya-columns-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .card-eyebrow {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #38bdf8;
+      margin-bottom: 14px;
+    }
+    .complaints-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .complaints-list li {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .dosha-meters-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .dosha-meter {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .meter-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .meter-head span {
+      color: #94a3b8;
+    }
+    .meter-head strong {
+      color: #fff;
+    }
+    .meter-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .meter-bar.vata { background: #38bdf8; }
+    .meter-bar.pitta { background: #f59e0b; }
+    .meter-bar.kapha { background: #10b981; }
+    .dosha-meter small {
+      font-size: 10px;
+      color: #64748b;
+      display: block;
+    }
+    .agni-status-pill {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #fbbf24;
+      display: flex;
+      justify-content: space-between;
+    }
+    .double-code-badges {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .code-box {
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .code-box.namaste {
+      background: rgba(14, 165, 233, 0.1);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+    }
+    .code-box.who {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+    .code-src {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .code-box strong {
+      font-size: 16px;
+      color: #fff;
+    }
+    .code-box span {
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+    .plan-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .plan-list li {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+    .vaidya-actions-bar {
+      display: flex;
+      gap: 10px;
+    }
+    .vaidya-actions-bar button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .vaidya-empty-hint {
+      text-align: center;
+      padding: 60px 20px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 24px;
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+    }
+    .vaidya-empty-hint .empty-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+    .vaidya-loading {
+      text-align: center;
+      padding: 60px 20px;
+      font-size: 16px;
+      color: #38bdf8;
+    }
+  </style>
+</head>
+<body class="vaidya-theme">
+  <div id="vaidyaDashboardContainer"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

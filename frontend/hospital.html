@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MediLocker — Hospital Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page provider-portal" data-provider-role="hospital">
+  <header class="app-header">
+    <a class="brand" href="index.html"><img src="logo-icon.png" class="brand-icon" alt="MediLocker"><span>Medi<span>Locker</span></span></a>
+    <div class="app-header-right">
+      <button class="location-btn" id="locationBtn">⌖ <span data-i18n="setLocation">Set location</span></button>
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+        <option value="hi">हिन्दी</option>
+        <option value="mr">मराठी</option>
+        <option value="ur">اردو</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="kn"><ctrl42>ಕನ್ನಡ</option>
+      </select>
+      <a href="index.html" class="signin" data-logout>Log out</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="patient-mini">
+        <div class="avatar" data-provider-initials>HO</div>
+        <strong data-provider-name>Hospital</strong>
+        <small>Hospital · <span data-provider-unit>Unit ID</span></small>
+      </div>
+      <nav class="side-nav">
+        <a class="active" href="hospital.html">⌂ <span>Overview</span></a>
+        <a href="#patientSearch">▦ <span>Search Patient</span></a>
+        <a href="#pendingVerificationSection">⏳ <span>Pending Verifications</span></a>
+        <a href="#activePatientsSection">👥 <span>Active Sessions</span></a>
+      </nav>
+      <div class="side-bottom">
+        <a href="login.html?role=hospital">↪ <span>Switch portal</span></a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">HOSPITAL PORTAL</span>
+          <h1>Care organization workspace.</h1>
+          <p>Find a patient using their MediLocker Unique Unit ID for admissions and clinical coordination.</p>
+        </div>
+        <span class="status-pill" style="background:var(--sage);color:#435740;">Institutional Account</span>
+      </div>
+
+      <section class="provider-hero">
+        <div>
+          <span class="eyebrow" style="color:#b9a9c4;">PATIENT ACCESS</span>
+          <h2 style="font:800 32px 'Manrope';margin:10px 0;">Search patient by Unique Unit ID.</h2>
+          <p style="color:#d5cdda;font-size:16px;">Enter the Unit ID supplied by the patient to access emergency records, allergies, and diagnostic history.</p>
+        </div>
+        <div class="provider-stat">
+          <strong>01</strong>
+          <span>Active hospital session</span>
+        </div>
+      </section>
+
+      <section class="profile-card" id="patientSearch" style="margin-top:30px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <span class="eyebrow">PATIENT LOOKUP</span>
+            <h3 style="font:800 24px 'Manrope';margin:4px 0 0;">Find patient</h3>
+          </div>
+          <span class="status-pill">Unit ID required</span>
+        </div>
+
+        <form id="patientSearchForm" style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
+          <input id="patientUnitSearch" required placeholder="Enter patient Unit ID · e.g. ML-XXXX-XXXX" autocomplete="off" style="flex:1;min-width:260px;border:1px solid var(--line);border-radius:14px;padding:14px 18px;font:500 16px 'DM Sans',sans-serif;background:#fff;">
+          <button class="primary-btn" type="submit">Search patient ↗</button>
+        </form>
+
+        <div id="patientSearchEmpty" class="empty-state compact">
+          <div class="empty-icon">⌕</div>
+          <h3>Ready to search</h3>
+          <p>Use the patient's exact MediLocker Unit ID. No sample patients are displayed automatically.</p>
+        </div>
+
+        <div id="patientSearchResult" class="patient-result hidden"></div>
+      </section>
+
+      <!-- Pending Verification Section (Retained across re-login for 15 minutes) -->
+      <section class="profile-card" id="pendingVerificationSection" style="margin-top:30px;border-top:4px solid var(--plum);">
+        <div class="card-topline" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <span>PENDING VERIFICATION</span>
+          <span class="status-pill" style="background:#fef3c7;color:#b45309;font-size:12px;font-weight:700;margin:0;">⏳ 15-Minute Dynamic Passcode Window</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:8px 0 16px;flex-wrap:wrap;gap:8px;">
+          <div>
+            <h3 style="font:800 22px 'Manrope';margin:0;">Pending Access Requests</h3>
+            <p style="color:var(--muted);font-size:14px;margin:4px 0 0;">These requests remain active for 15 minutes even after logging out. Ask the patient for their 6-digit code to unlock records.</p>
+          </div>
+          <button type="button" class="secondary-btn" id="refreshPendingBtn" style="padding:8px 16px;font-size:13px;">↻ Refresh</button>
+        </div>
+        <div id="pendingVerificationList">
+          <div class="empty-state compact">
+            <p style="margin:0;color:var(--muted);">No pending requests. Search a patient by Unit ID above to initiate an access request.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Active Authorized Patients Section -->
+      <section class="profile-card" id="activePatientsSection" style="margin-top:30px;">
+        <div class="card-topline" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <span>ACTIVE SESSIONS</span>
+          <span class="status-pill" style="background:#ecfdf5;color:#047857;font-size:12px;font-weight:700;margin:0;">● Sovereign Patient Consent</span>
+        </div>
+        <h3 style="font:800 24px 'Manrope';margin:10px 0 16px;">Currently Authorized Patients</h3>
+        <div id="activePatientsList">
+          <div class="empty-state compact">
+            <p style="margin:0;color:var(--muted);">No active patient consultations. Enter a patient Unit ID above to send an access request.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Full Authorized Patient Inspection Modal -->
+      <div class="modal hidden" id="patientRecordModal">
+        <div class="modal-card" style="max-width:980px;width:95%;max-height:90vh;overflow-y:auto;text-align:left;padding:32px;">
+          <button class="modal-close" id="closePatientRecordModal">×</button>
+          <div id="patientRecordModalContent"></div>
+        </div>
+      </div>
+
+      <div class="emergency-box" style="margin-top:30px;background:#f5ece7;">
+        <span>ℹ</span>
+        <div>
+          <strong>Institutional Access Control</strong>
+          <p>This workspace operates under sovereign patient authorization. Patient records are unlocked exclusively for authorized care coordination.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Provider Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <ul class="mobile-nav-items">
+      <li><a href="hospital.html" class="mobile-nav-item active"><span>⌂</span><span>Overview</span></a></li>
+      <li><a href="#patientSearch" class="mobile-nav-item"><span>⌕</span><span>Find Patient</span></a></li>
+      <li><a href="#activePatientsSection" class="mobile-nav-item"><span>👥</span><span>Sessions</span></a></li>
+      <li><a href="login.html?role=hospital" class="mobile-nav-item"><span>↪</span><span>Switch</span></a></li>
+    </ul>
+  </nav>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

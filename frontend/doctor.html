@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MediLocker — Doctor Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page provider-portal" data-provider-role="doctor">
+  <header class="app-header">
+    <a class="brand" href="index.html"><img src="logo-icon.png" class="brand-icon" alt="MediLocker"><span>Medi<span>Locker</span></span></a>
+    <div class="app-header-right">
+      <button class="location-btn" id="locationBtn">⌖ <span data-i18n="setLocation">Set location</span></button>
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+        <option value="hi">हिन्दी</option>
+        <option value="mr">मराठी</option>
+        <option value="ur">اردو</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
+      <a href="index.html" class="signin" data-logout>Log out</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="patient-mini">
+        <div class="avatar" data-provider-initials>DR</div>
+        <strong data-provider-name>Doctor</strong>
+        <small>Doctor · <span data-provider-unit>Unit ID</span></small>
+      </div>
+      <nav class="side-nav">
+        <a class="active" href="doctor.html">⌂ <span>Overview</span></a>
+        <a href="#doctorAppointmentsSection">📅 <span>Appointments & Visits</span></a>
+        <a href="#patientSearch">▦ <span>Search Patient</span></a>
+        <a href="#activePatientsSection">👥 <span>Active Sessions</span></a>
+        <a href="vaidya.html" style="color:#f59e0b;font-weight:700;">🩺 <span>30s Vaidya Chart ↗</span></a>
+        <a href="kiosk.html" style="color:#38bdf8;">🏥 <span>OPD Kiosk Terminal ↗</span></a>
+      </nav>
+      <div class="side-bottom">
+        <a href="login.html?role=doctor">↪ <span>Switch portal</span></a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">DOCTOR PORTAL</span>
+          <h1>Clinical workspace.</h1>
+          <p>Find a patient using their MediLocker Unique Unit ID to review authorized health records.</p>
+        </div>
+        <span class="status-pill" style="background:var(--lav);color:var(--plum);">Professional Account</span>
+      </div>
+
+      <section class="provider-hero">
+        <div>
+          <span class="eyebrow" style="color:#b9a9c4;">PATIENT ACCESS</span>
+          <h2 style="font:800 32px 'Manrope';margin:10px 0;">Search patient by Unique Unit ID.</h2>
+          <p style="color:#d5cdda;font-size:16px;">Enter the Unit ID supplied by the patient to review authorized clinical history, allergies, and symptom trajectories.</p>
+        </div>
+        <div class="provider-stat">
+          <strong>01</strong>
+          <span>Active doctor session</span>
+        </div>
+      </section>
+
+      <!-- Doctor Appointments & Clinical To-Do Section -->
+      <section class="profile-card" id="doctorAppointmentsSection" style="margin-top:30px;border-top:4px solid #6366f1;">
+        <div class="card-topline" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <span>APPOINTMENTS & CLINICAL TO-DO</span>
+          <span class="status-pill" style="background:#e0e7ff;color:#4338ca;font-size:12px;font-weight:700;margin:0;">📅 Real-Time Patient Visits</span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:8px 0 20px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h3 style="font:800 24px 'Manrope';margin:0;">Clinical Consultations & Pre-Visit Checklist</h3>
+            <p style="color:var(--muted);font-size:14px;margin:4px 0 0;">Manage scheduled visits, confirm patients, and review preparation tasks before consultation.</p>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button type="button" class="secondary-btn" id="refreshDoctorApptsBtn" style="padding:8px 16px;font-size:13px;">↻ Refresh</button>
+          </div>
+        </div>
+
+        <!-- Metric Badges -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:14px;margin-bottom:24px;">
+          <div style="background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:16px;">
+            <span style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;">Today's Visits</span>
+            <div id="todayApptsCount" style="font:800 28px 'Manrope';color:var(--plum);margin-top:4px;">0</div>
+          </div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:16px;">
+            <span style="font-size:12px;font-weight:700;color:#c2410c;text-transform:uppercase;">Pending Confirmations</span>
+            <div id="pendingApptsCount" style="font:800 28px 'Manrope';color:#ea580c;margin-top:4px;">0</div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:16px;">
+            <span style="font-size:12px;font-weight:700;color:#15803d;text-transform:uppercase;">Upcoming Checklist</span>
+            <div id="todoApptsCount" style="font:800 28px 'Manrope';color:#16a34a;margin-top:4px;">0 Tasks</div>
+          </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-pills" style="margin-bottom:20px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="filter-pill active" data-appttab="today" style="cursor:pointer;padding:8px 18px;border-radius:20px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:13px;">Today's Visits</button>
+          <button type="button" class="filter-pill" data-appttab="upcoming" style="cursor:pointer;padding:8px 18px;border-radius:20px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:13px;">Upcoming & Checklist</button>
+          <button type="button" class="filter-pill" data-appttab="all" style="cursor:pointer;padding:8px 18px;border-radius:20px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:13px;">All Appointments</button>
+        </div>
+
+        <!-- Tab 1: Today's Appointments -->
+        <div id="todayApptsTabContent">
+          <div id="todayApptsList">
+            <div class="empty-state compact"><p style="margin:0;color:var(--muted);">Loading appointments...</p></div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Upcoming Appointments & To-Do Checklist -->
+        <div id="upcomingApptsTabContent" class="hidden">
+          <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:14px;padding:16px;margin-bottom:18px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <div>
+                <strong style="color:#6b21a8;font-size:15px;">📋 Pre-Consultation Preparation Checklist</strong>
+                <p style="margin:2px 0 0;font-size:13px;color:#7e22ce;">Check off clinical items as you review records and prepare treatment plans.</p>
+              </div>
+              <span id="todoProgressBadge" style="font-size:12px;font-weight:700;background:#f3e8ff;color:#7e22ce;padding:4px 10px;border-radius:12px;">0% Ready</span>
+            </div>
+          </div>
+          <div id="upcomingTodoList">
+            <div class="empty-state compact"><p style="margin:0;color:var(--muted);">No upcoming appointments scheduled.</p></div>
+          </div>
+          <div style="margin-top:24px;">
+            <h4 style="font:800 18px 'Manrope';margin-bottom:12px;">Upcoming Schedule</h4>
+            <div id="upcomingApptsList"></div>
+          </div>
+        </div>
+
+        <!-- Tab 3: All Appointments History -->
+        <div id="allApptsTabContent" class="hidden">
+          <div id="allApptsList"></div>
+        </div>
+      </section>
+
+      <section class="profile-card" id="patientSearch" style="margin-top:30px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <span class="eyebrow">PATIENT LOOKUP</span>
+            <h3 style="font:800 24px 'Manrope';margin:4px 0 0;">Find patient</h3>
+          </div>
+          <span class="status-pill">Unit ID required</span>
+        </div>
+
+        <form id="patientSearchForm" style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
+          <input id="patientUnitSearch" required placeholder="Enter patient Unit ID · e.g. ML-XXXX-XXXX" autocomplete="off" style="flex:1;min-width:260px;border:1px solid var(--line);border-radius:14px;padding:14px 18px;font:500 16px 'DM Sans',sans-serif;background:#fff;">
+          <button class="primary-btn" type="submit">Search patient ↗</button>
+        </form>
+
+        <div id="patientSearchEmpty" class="empty-state compact">
+          <div class="empty-icon">⌕</div>
+          <h3>Ready to search</h3>
+          <p>Use the patient's exact MediLocker Unit ID. No sample patients are displayed automatically.</p>
+        </div>
+
+        <div id="patientSearchResult" class="patient-result hidden"></div>
+      </section>
+
+      <!-- Pending Verification Section (Retained across re-login for 15 minutes) -->
+      <section class="profile-card" id="pendingVerificationSection" style="margin-top:30px;border-top:4px solid var(--plum);">
+        <div class="card-topline" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <span>PENDING VERIFICATION</span>
+          <span class="status-pill" style="background:#fef3c7;color:#b45309;font-size:12px;font-weight:700;margin:0;">⏳ 15-Minute Dynamic Passcode Window</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:8px 0 16px;flex-wrap:wrap;gap:8px;">
+          <div>
+            <h3 style="font:800 22px 'Manrope';margin:0;">Pending Access Requests</h3>
+            <p style="color:var(--muted);font-size:14px;margin:4px 0 0;">These requests remain active for 15 minutes even after logging out. Ask the patient for their 6-digit code to unlock records.</p>
+          </div>
+          <button type="button" class="secondary-btn" id="refreshPendingBtn" style="padding:8px 16px;font-size:13px;">↻ Refresh</button>
+        </div>
+        <div id="pendingVerificationList">
+          <div class="empty-state compact">
+            <p style="margin:0;color:var(--muted);">No pending requests. Search a patient by Unit ID above to initiate an access request.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Active Authorized Patients Section -->
+      <section class="profile-card" id="activePatientsSection" style="margin-top:30px;">
+        <div class="card-topline" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <span>ACTIVE SESSIONS</span>
+          <span class="status-pill" style="background:#ecfdf5;color:#047857;font-size:12px;font-weight:700;margin:0;">● Sovereign Patient Consent</span>
+        </div>
+        <h3 style="font:800 24px 'Manrope';margin:10px 0 16px;">Currently Authorized Patients</h3>
+        <div id="activePatientsList">
+          <div class="empty-state compact">
+            <p style="margin:0;color:var(--muted);">No active patient consultations. Enter a patient Unit ID above to send an access request.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Full Authorized Patient Inspection Modal -->
+      <div class="modal hidden" id="patientRecordModal">
+        <div class="modal-card" style="max-width:980px;width:95%;max-height:90vh;overflow-y:auto;text-align:left;padding:32px;">
+          <button class="modal-close" id="closePatientRecordModal">×</button>
+          <div id="patientRecordModalContent"></div>
+        </div>
+      </div>
+
+      <div class="emergency-box" style="margin-top:30px;background:#f5ece7;">
+        <span>ℹ</span>
+        <div>
+          <strong>Consent-Led Access Control</strong>
+          <p>This workspace operates under sovereign patient authorization. Clinical records are unlocked exclusively during active consultation sessions under patient consent.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Provider Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <ul class="mobile-nav-items">
+      <li><a href="doctor.html" class="mobile-nav-item active"><span>⌂</span><span>Overview</span></a></li>
+      <li><a href="#patientSearch" class="mobile-nav-item"><span>⌕</span><span>Find Patient</span></a></li>
+      <li><a href="#activePatientsSection" class="mobile-nav-item"><span>👥</span><span>Sessions</span></a></li>
+      <li><a href="login.html?role=doctor" class="mobile-nav-item"><span>↪</span><span>Switch</span></a></li>
+    </ul>
+  </nav>
+
+  <script src="js/i18n.js"></script>
+  <script type="module" src="js/app.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

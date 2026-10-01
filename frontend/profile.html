@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MediLocker — My Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page patient-dashboard">
+  <header class="app-header">
+    <a class="brand" href="dashboard.html"><img src="logo-icon.png" class="brand-icon" alt="MediLocker"><span>Medi<span>Locker</span></span></a>
+    <div class="app-header-right">
+      <a href="tel:102" class="sos-btn" id="sosHeaderBtn" aria-label="Emergency Ambulance Call 102">
+        <span class="sos-pulse-ring"></span>
+        <span class="sos-icon">🚨</span>
+        <span>SOS 102</span>
+      </a>
+      <button class="location-btn" id="locationBtn">⌖ <span data-i18n="setLocation">Set location</span></button>
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+        <option value="hi">हिन्दी</option>
+        <option value="mr">मराठी</option>
+        <option value="ur">اردو</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
+      <a href="index.html" class="signin" data-logout>Log out</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="patient-mini">
+        <div class="avatar" data-user-initials>U</div>
+        <strong data-user-name>User</strong>
+        <small data-i18n="patientAccount">Patient account</small>
+      </div>
+      <nav class="side-nav">
+        <a href="dashboard.html">⌂ <span data-i18n="dashboard">Dashboard</span></a>
+        <a href="timeline.html">⏳ <span data-i18n="timelinePage">Health timeline</span></a>
+        <a href="records.html">▤ <span data-i18n="recordsPage">Medical records</span></a>
+        <a href="medications.html">✓ <span data-i18n="todoPage">Medication to-do</span></a>
+        <a href="inventory.html">⊞ <span data-i18n="inventoryPage">Medicine cabinet</span></a>
+        <a href="ai-companion.html">✦ <span data-i18n="aiCompanionPage">Medi-AI assistant</span></a>
+        <a href="tests.html">⚗ <span data-i18n="testsPage">Lab tests & vitals</span></a>
+        <a href="delegation.html">🛡 <span data-i18n="delegationPage">Consent & access</span></a>
+        <a href="doctors.html">🩺 <span>Find Doctors & Book</span></a>
+        <a href="upload.html">＋ <span data-i18n="uploadPage">Upload documents</span></a>
+        <a class="active" href="profile.html">◉ <span data-i18n="profilePage">My profile</span></a>
+      </nav>
+      <div class="side-bottom">
+        <a href="login.html">↪ <span data-i18n="switchPortal">Switch portal</span></a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">MY PROFILE</span>
+          <h1>Your account profile.</h1>
+          <p>These details come from your registered MediLocker account. Kept secure and fully editable by you.</p>
+        </div>
+      </div>
+
+      <section class="profile-card">
+        <div class="profile-hero" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div class="large-avatar" data-user-initials>U</div>
+            <div>
+              <h2 data-user-name>User</h2>
+              <p data-user-unit style="color:var(--muted);font-family:monospace;font-weight:700;font-size:15px;margin:2px 0 0;">—</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="status-pill" id="profileRolePill" style="background:#eef7ee;color:#2e6b35;">Registered account</span>
+            <button type="button" class="primary-btn" id="toggleEditProfileBtn" style="padding:10px 20px;font-size:14px;">✎ Edit Profile</button>
+          </div>
+        </div>
+
+        <form id="profileForm" style="margin-top:24px;">
+          <!-- PATIENT SECTIONS -->
+          <div id="patientProfileSection">
+            <h3 style="font:800 18px 'Manrope';color:var(--plum);margin:0 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px;">1. Personal & Identity Details</h3>
+            <div class="details-grid">
+              <label>Full name<input data-field="fullName" name="fullName" readonly></label>
+              <label>Date of birth<input data-field="dob" name="dob" type="date" readonly></label>
+              <label>Blood group
+                <select data-field="bloodGroup" name="bloodGroup" disabled style="background:#fff;">
+                  <option value="Not specified">Not specified</option>
+                  <option value="A+">A+</option><option value="A-">A-</option>
+                  <option value="B+">B+</option><option value="B-">B-</option>
+                  <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                  <option value="O+">O+</option><option value="O-">O-</option>
+                </select>
+              </label>
+              <label>Phone number<input data-field="phone" name="phone" readonly></label>
+              <label>Email address<input data-field="email" name="email" readonly style="opacity:0.75;cursor:not-allowed;" title="Email address cannot be changed."></label>
+              <label>Government ID<input data-field="govid" name="govid" readonly></label>
+            </div>
+
+            <h3 style="font:800 18px 'Manrope';color:var(--plum);margin:24px 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px;">2. Health Baselines & Insurance</h3>
+            <div class="details-grid">
+              <label>Medical insurance<input data-field="insurance" name="insurance" readonly></label>
+              <label>Allergies (comma-separated)<input data-field="allergy" name="allergy" readonly></label>
+              <label>Current medications<input data-field="medications" name="medications" readonly></label>
+              <label>Medical history / Chronic conditions<input data-field="history" name="history" readonly></label>
+            </div>
+
+            <h3 style="font:800 18px 'Manrope';color:var(--plum);margin:24px 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px;">3. Contact, Location & Emergency</h3>
+            <div class="details-grid">
+              <label>Emergency contact name<input data-field="emergencyName" name="emergencyName" readonly></label>
+              <label>Emergency contact phone<input data-field="emergencyPhone" name="emergencyPhone" readonly></label>
+              <label>City<input data-field="city" name="city" readonly></label>
+              <label>State<input data-field="state" name="state" readonly></label>
+              <label>PIN Code<input data-field="pincode" name="pincode" readonly></label>
+              <label class="wide">Full address<input data-field="address" name="address" readonly></label>
+            </div>
+          </div>
+
+          <!-- DOCTOR SECTIONS -->
+          <div id="doctorProfileSection" class="hidden">
+            <h3 style="font:800 18px 'Manrope';color:var(--plum);margin:0 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px;">1. Doctor Clinical Profile</h3>
+            <div class="details-grid">
+              <label>Doctor's full name<input data-field="docFullName" name="docFullName" readonly></label>
+              <label>Degree / Qualifications<input data-field="degree" name="degree" readonly placeholder="e.g. MBBS, MD, MS"></label>
+              <label>Specialization<input data-field="specialization" name="specialization" readonly></label>
+              <label>Years of experience<input data-field="experience" name="experience" type="number" readonly></label>
+              <label>Professional contact phone<input data-field="docPhone" name="docPhone" readonly></label>
+              <label>Professional email<input data-field="docEmail" name="docEmail" readonly style="opacity:0.75;cursor:not-allowed;"></label>
+            </div>
+
+            <h3 style="font:800 18px 'Manrope';color:var(--plum);margin:24px 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px;">2. Clinic Practice & Location</h3>
+            <div class="details-grid">
+              <label>Clinic / Hospital name<input data-field="clinicName" name="clinicName" readonly></label>
+              <label>City<input data-field="docCity" name="docCity" readonly></label>
+              <label>State<input data-field="docState" name="docState" readonly></label>
+              <label class="wide">Clinic address<input data-field="clinicAddress" name="clinicAddress" readonly></label>
+            </div>
+          </div>
+
+          <!-- HOSPITAL SECTIONS -->
+          <div id="hospitalProfileSection" class="hidden">
+            <h3 style="font:800 18px 'Manrope';color:var(--plum);margin:0 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px;">1. Institutional Details</h3>
+            <div class="details-grid">
+              <label>Hospital name<input data-field="hospName" name="hospName" readonly></label>
+              <label>Hospital contact phone<input data-field="hospPhone" name="hospPhone" readonly></label>
+              <label>Official email<input data-field="hospEmail" name="hospEmail" readonly style="opacity:0.75;cursor:not-allowed;"></label>
+              <label>Hospital sector / ownership
+                <select data-field="hospitalOwnership" name="hospitalOwnership" disabled style="background:#fff;">
+                  <option value="PRIVATE">Private Hospital</option>
+                  <option value="PUBLIC">Public / Government Hospital</option>
+                </select>
+              </label>
+              <label>Hospital type<input data-field="hospitalType" name="hospitalType" readonly></label>
+              <label>Bed capacity<input data-field="bedCapacity" name="bedCapacity" type="number" readonly></label>
+            </div>
+
+            <h3 style="font:800 18px 'Manrope';color:var(--plum);margin:24px 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px;">2. Administration & Government Schemes</h3>
+            <div class="details-grid">
+              <label>Managing Director (MD) name<input data-field="managingDirectorName" name="managingDirectorName" readonly></label>
+              <label>MD contact phone<input data-field="managingDirectorContact" name="managingDirectorContact" readonly></label>
+              <label>Authorized representative<input data-field="authorizedRepresentative" name="authorizedRepresentative" readonly></label>
+              <label>Govt Schemes available (Yes/No)
+                <select data-field="govtSchemesAvailable" name="govtSchemesAvailable" disabled style="background:#fff;">
+                  <option value="true">Yes · Schemes Accepted</option>
+                  <option value="false">No · No Government Schemes</option>
+                </select>
+              </label>
+              <label class="wide">Empanelled Schemes (comma-separated)<input data-field="govtSchemesList" name="govtSchemesList" readonly placeholder="Ayushman Bharat (PM-JAY), CGHS, etc."></label>
+            </div>
+
+            <h3 style="font:800 18px 'Manrope';color:var(--plum);margin:24px 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px;">3. Location</h3>
+            <div class="details-grid">
+              <label>City<input data-field="hospCity" name="hospCity" readonly></label>
+              <label>State<input data-field="hospState" name="hospState" readonly></label>
+              <label class="wide">Hospital address<input data-field="hospAddress" name="hospAddress" readonly></label>
+            </div>
+          </div>
+
+          <!-- Edit Actions -->
+          <div id="profileEditActions" class="hidden" style="margin-top:30px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:12px;">
+            <button type="button" class="secondary-btn" id="cancelProfileEditBtn" style="padding:12px 24px;">Cancel</button>
+            <button type="submit" class="primary-btn" id="saveProfileBtn" style="padding:12px 28px;">Save Profile Changes ↗</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- SaaS Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <ul class="mobile-nav-items">
+      <li><a href="dashboard.html" class="mobile-nav-item"><span>⌂</span><span>Home</span></a></li>
+      <li><a href="timeline.html" class="mobile-nav-item"><span>⏳</span><span>Timeline</span></a></li>
+      <li><a href="records.html" class="mobile-nav-item"><span>📋</span><span>Records</span></a></li>
+      <li><a href="medications.html" class="mobile-nav-item"><span>✓</span><span>To-Do</span></a></li>
+      <li><a href="inventory.html" class="mobile-nav-item"><span>⊞</span><span>Cabinet</span></a></li>
+      <li><a href="profile.html" class="mobile-nav-item active"><span>◉</span><span>Profile</span></a></li>
+    </ul>
+  </nav>
+
+  <!-- Floating Medi-AI Companion Trigger -->
+  <a href="ai-companion.html" class="floating-ai-btn">
+    <span>✦</span> Ask Medi-AI
+  </a>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

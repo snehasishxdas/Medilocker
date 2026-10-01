@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MediLocker — Consent & Access Delegation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page patient-delegation">
+  <header class="app-header">
+    <a class="brand" href="dashboard.html"><img src="logo-icon.png" class="brand-icon" alt="MediLocker"><span>Medi<span>Locker</span></span></a>
+    <div class="app-header-right">
+      <a href="tel:102" class="sos-btn" id="sosHeaderBtn" aria-label="Emergency Ambulance Call 102">
+        <span class="sos-pulse-ring"></span>
+        <span class="sos-icon">🚨</span>
+        <span>SOS 102</span>
+      </a>
+      <button class="location-btn" id="locationBtn">⌖ <span data-i18n="setLocation">Set location</span></button>
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+        <option value="hi">हिन्दी</option>
+        <option value="mr">मराठी</option>
+        <option value="ur">اردو</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
+      <a href="index.html" class="signin" data-logout>Log out</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="patient-mini">
+        <div class="avatar" data-user-initials>U</div>
+        <strong data-user-name>User</strong>
+        <small data-i18n="patientAccount">Patient account</small>
+      </div>
+      <nav class="side-nav">
+        <a href="dashboard.html">⌂ <span data-i18n="dashboard">Dashboard</span></a>
+        <a href="timeline.html">⏳ <span data-i18n="timelinePage">Health timeline</span></a>
+        <a href="records.html">▤ <span data-i18n="recordsPage">Medical records</span></a>
+        <a href="medications.html">✓ <span data-i18n="todoPage">Medication to-do</span></a>
+        <a href="inventory.html">⊞ <span data-i18n="inventoryPage">Medicine cabinet</span></a>
+        <a href="ai-companion.html">✦ <span data-i18n="aiCompanionPage">Medi-AI assistant</span></a>
+        <a href="tests.html">⚗ <span data-i18n="testsPage">Lab tests & vitals</span></a>
+        <a class="active" href="delegation.html">🛡 <span data-i18n="delegationPage">Consent & access</span></a>
+        <a href="upload.html">＋ <span data-i18n="uploadPage">Upload documents</span></a>
+        <a href="doctors.html">🩺 <span>Doctors & Appointments</span></a>
+        <a href="profile.html">◉ <span data-i18n="profilePage">My profile</span></a>
+      </nav>
+      <div class="side-bottom">
+        <a href="login.html">↪ <span data-i18n="switchPortal">Switch portal</span></a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">SOVEREIGN PATIENT PRIVACY</span>
+          <h1>Consent & Access Delegation</h1>
+          <p>You control who can view your health story. Grant temporary clinical tokens with MPIN verification and revoke at any time.</p>
+        </div>
+        <button class="primary-btn" id="openGrantModal">Authorize Provider ＋</button>
+      </div>
+
+      <!-- Summary Metrics -->
+      <div class="dashboard-grid" style="margin-bottom:32px;">
+        <section class="summary-card accent">
+          <span>ACTIVE DELEGATIONS</span>
+          <strong id="activeDelegationsCount">0 Providers</strong>
+          <small>Authorized under your consent.</small>
+        </section>
+        <section class="summary-card">
+          <span>TEMPORARY CLINICAL TOKENS</span>
+          <strong id="activeTokensCount">0 Active</strong>
+          <small>No active consultation sessions.</small>
+        </section>
+        <section class="summary-card">
+          <span>EMERGENCY ACCESS</span>
+          <strong style="color:#4e9e57;">Configured</strong>
+          <small>Emergency contact verified.</small>
+        </section>
+        <section class="summary-card">
+          <span>PRIVACY STATUS</span>
+          <strong>End-to-End Encrypted</strong>
+          <small>AES-256 envelope security.</small>
+        </section>
+      </div>
+
+      <!-- Incoming Doctor Access Requests (New Section) -->
+      <div class="section-row" style="margin:24px 0 16px;">
+        <span class="eyebrow" style="color:var(--plum);">PENDING ACCESS REQUESTS</span>
+        <h2>Incoming Doctor Access Requests</h2>
+      </div>
+
+      <div id="incomingRequestsContainer" style="margin-bottom:32px;">
+        <div id="incomingRequestsList">
+          <div class="empty-state compact" id="incomingEmptyState" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:32px 20px;text-align:center;">
+            <div class="empty-icon" style="font-size:32px;margin-bottom:8px;">📬</div>
+            <h4 style="font:800 17px 'Manrope';margin:0 0 6px;">No pending doctor requests</h4>
+            <p style="color:var(--muted);font-size:14px;margin:0;">When a doctor or hospital requests access using your Unit ID, the request and 15-minute authorization code will appear here in real time.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Clinical Access Grants -->
+      <div class="section-row" style="margin:20px 0 16px;">
+        <span class="eyebrow">ACTIVE AUTHORIZATIONS</span>
+        <h2>Healthcare Providers with Access</h2>
+      </div>
+
+      <div id="delegationsList">
+        <div class="empty-state" id="delegationsEmptyState" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:48px 24px;text-align:center;">
+          <div class="empty-icon" style="font-size:40px;margin-bottom:12px;">🛡</div>
+          <h3 style="font:800 20px 'Manrope';margin:0 0 8px;">No active provider delegations</h3>
+          <p style="color:var(--muted);max-width:460px;margin:0 auto 20px;font-size:14px;">You have not authorized any doctors or hospitals. When visiting a clinic, grant temporary sovereign access using their Provider Unit ID.</p>
+          <button type="button" class="primary-btn" onclick="document.getElementById('openGrantModal').click()">Authorize a Provider ＋</button>
+        </div>
+      </div>
+
+      <!-- Access Audit Trail -->
+      <div class="profile-card" style="margin-top:36px;">
+        <div class="card-topline">
+          <span>IMMUTABLE AUDIT TRAIL</span>
+          <span class="live-dot">● Cryptographically Stamped</span>
+        </div>
+        <h2 style="font:800 24px 'Manrope';margin:12px 0 6px;">Access History & Logs</h2>
+        <p style="color:var(--muted);margin:0 0 16px;font-size:14px;">Every time a healthcare professional or institution looks up your medical records, an immutable audit event is recorded.</p>
+
+        <div style="overflow-x:auto;">
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th>TIMESTAMP</th>
+                <th>PROVIDER</th>
+                <th>UNIT ID</th>
+                <th>PURPOSE</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody id="auditLogsBody">
+              <tr>
+                <td colspan="5" style="text-align:center;color:var(--muted);padding:24px;">No provider access history recorded. All access will be cryptographically audited here.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ABDM Ecosystem & DPDP Ephemeral Privacy Section -->
+      <div id="abdmContainer" style="margin-top:32px;"></div>
+    </main>
+  </div>
+
+  <!-- Authorize New Provider Modal -->
+  <div class="modal hidden" id="grantModal">
+    <div class="modal-card" style="max-width:500px;text-align:left;">
+      <button class="modal-close" id="closeGrantModal">×</button>
+      <span class="eyebrow">GRANT ACCESS</span>
+      <h2 style="font:800 24px 'Manrope';margin:6px 0 16px;">Authorize Doctor or Hospital</h2>
+      <form id="grantAccessForm">
+        <label style="display:block;font-weight:700;font-size:14px;margin-bottom:12px;">
+          Healthcare Provider Unit ID
+          <input type="text" id="providerUnitInput" required placeholder="e.g. ML-DOC-1234 or ML-HOS-5678" style="display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px;text-transform:uppercase;">
+        </label>
+        <label style="display:block;font-weight:700;font-size:14px;margin-bottom:12px;">
+          Access Duration
+          <select id="accessDuration" style="display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px;background:#fff;">
+            <option value="2h">2 Hours (Emergency / Single Consultation)</option>
+            <option value="24h">24 Hours (Daycare / Clinic Follow-up)</option>
+            <option value="30d">30 Days (Ongoing Treatment Course)</option>
+          </select>
+        </label>
+        <label style="display:block;font-weight:700;font-size:14px;margin-bottom:18px;">
+          Confirm with 6-Digit MPIN
+          <input type="password" maxlength="6" id="confirmMpin" required placeholder="••••••" style="display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px;letter-spacing:4px;font-size:18px;">
+        </label>
+        <button type="submit" class="primary-btn full">Authorize Provider ↗</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Medi-AI Companion Trigger -->
+  <a href="ai-companion.html" class="floating-ai-btn">
+    <span>✦</span> Ask Medi-AI
+  </a>
+
+  <!-- Mobile SaaS Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <ul class="mobile-nav-items">
+      <li><a href="dashboard.html" class="mobile-nav-item"><span>⌂</span><span>Home</span></a></li>
+      <li><a href="timeline.html" class="mobile-nav-item"><span>⏳</span><span>Timeline</span></a></li>
+      <li><a href="records.html" class="mobile-nav-item"><span>📋</span><span>Records</span></a></li>
+      <li><a href="medications.html" class="mobile-nav-item"><span>✓</span><span>To-Do</span></a></li>
+      <li><a href="inventory.html" class="mobile-nav-item"><span>⊞</span><span>Cabinet</span></a></li>
+      <li><a href="ai-companion.html" class="mobile-nav-item"><span>✦</span><span>Medi-AI</span></a></li>
+    </ul>
+  </nav>
+
+  <script src="js/i18n.js"></script>
+  <script type="module" src="js/app.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

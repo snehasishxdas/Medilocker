@@ -1,0 +1,21 @@
+{
+  "name": "medilocker",
+  "version": "1.0.0",
+  "description": "MediLocker — Sovereign Digital Medical Records Vault with Medi-AI",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n \"BACKEND,FRONTEND\" -c \"cyan.bold,green.bold\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "postinstall": "npm --prefix backend run prisma:generate",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "start": "concurrently -k -n \"BACKEND,FRONTEND\" -c \"cyan.bold,green.bold\" \"npm --prefix backend run start\" \"npm --prefix frontend run preview\"",
+    "install:all": "npm install && npm --prefix backend install && npm --prefix frontend install",
+    "prisma:generate": "npm --prefix backend run prisma:generate",
+    "prisma:push": "npm --prefix backend run prisma:push",
+    "prisma:studio": "npm --prefix backend run prisma:studio"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}

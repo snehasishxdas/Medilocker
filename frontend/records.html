@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MediLocker — Medical Records</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page patient-dashboard patient-records">
+  <header class="app-header">
+    <a class="brand" href="dashboard.html"><img src="logo-icon.png" class="brand-icon" alt="MediLocker"><span>Medi<span>Locker</span></span></a>
+    <div class="app-header-right">
+      <a href="tel:102" class="sos-btn" id="sosHeaderBtn" aria-label="Emergency Ambulance Call 102">
+        <span class="sos-pulse-ring"></span>
+        <span class="sos-icon">🚨</span>
+        <span>SOS 102</span>
+      </a>
+      <button class="location-btn" id="locationBtn">⌖ <span data-i18n="setLocation">Set location</span></button>
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+        <option value="hi">हिन्दी</option>
+        <option value="mr">मराठी</option>
+        <option value="ur">اردو</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
+      <a href="index.html" class="signin" data-logout>Log out</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="patient-mini">
+        <div class="avatar" data-user-initials>U</div>
+        <strong data-user-name>User</strong>
+        <small data-i18n="patientAccount">Patient account</small>
+      </div>
+      <nav class="side-nav">
+        <a href="dashboard.html">⌂ <span data-i18n="dashboard">Dashboard</span></a>
+        <a href="timeline.html">⏳ <span data-i18n="timelinePage">Health timeline</span></a>
+        <a class="active" href="records.html">▤ <span data-i18n="recordsPage">Medical records</span></a>
+        <a href="medications.html">✓ <span data-i18n="todoPage">Medication to-do</span></a>
+        <a href="inventory.html">⊞ <span data-i18n="inventoryPage">Medicine cabinet</span></a>
+        <a href="ai-companion.html">✦ <span data-i18n="aiCompanionPage">Medi-AI assistant</span></a>
+        <a href="tests.html">⚗ <span data-i18n="testsPage">Lab tests & vitals</span></a>
+        <a href="delegation.html">🛡 <span data-i18n="delegationPage">Consent & access</span></a>
+        <a href="upload.html">＋ <span data-i18n="uploadPage">Upload documents</span></a>
+        <a href="doctors.html">🩺 <span>Doctors & Appointments</span></a>
+        <a href="profile.html">◉ <span data-i18n="profilePage">My profile</span></a>
+      </nav>
+      <div class="side-bottom">
+        <a href="login.html">↪ <span data-i18n="switchPortal">Switch portal</span></a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">DIGITAL MEDICAL VAULT</span>
+          <h1>Your medical records.</h1>
+          <p>Prescriptions, diagnostic investigation reports, and clinical documents securely stored with AES-256 envelope encryption.</p>
+        </div>
+        <a class="primary-btn" href="upload.html">Upload new ↗</a>
+      </div>
+
+      <div class="filter-bar">
+        <button class="filter active" data-filter="all">All</button>
+        <button class="filter" data-filter="prescription">Prescriptions</button>
+        <button class="filter" data-filter="report">Reports</button>
+      </div>
+
+      <div class="records-list" id="recordsListContainer">
+        <div class="empty-state" id="recordsEmptyState" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:48px 24px;text-align:center;width:100%;">
+          <div class="empty-icon" style="font-size:40px;margin-bottom:12px;">▤</div>
+          <h3 style="font:800 20px 'Manrope';margin:0 0 8px;">No medical records yet</h3>
+          <p style="color:var(--muted);max-width:460px;margin:0 auto 20px;font-size:14px;">Upload your prescriptions, lab reports, or discharge summaries to securely store and index them in your sovereign vault.</p>
+          <a class="primary-btn" href="upload.html" style="display:inline-block;">Upload Your First Record ↗</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- SaaS Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <ul class="mobile-nav-items">
+      <li><a href="dashboard.html" class="mobile-nav-item"><span>⌂</span><span>Home</span></a></li>
+      <li><a href="timeline.html" class="mobile-nav-item"><span>⏳</span><span>Timeline</span></a></li>
+      <li><a href="records.html" class="mobile-nav-item active"><span>📋</span><span>Records</span></a></li>
+      <li><a href="medications.html" class="mobile-nav-item"><span>✓</span><span>To-Do</span></a></li>
+      <li><a href="inventory.html" class="mobile-nav-item"><span>⊞</span><span>Cabinet</span></a></li>
+      <li><a href="ai-companion.html" class="mobile-nav-item"><span>✦</span><span>Medi-AI</span></a></li>
+    </ul>
+  </nav>
+
+  <!-- Floating Medi-AI Companion Trigger -->
+  <a href="ai-companion.html" class="floating-ai-btn">
+    <span>✦</span> Ask Medi-AI
+  </a>
+
+  <script src="js/i18n.js"></script>
+  <script type="module" src="js/app.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MediLocker — OPD Touchscreen Kiosk (अस्पताल पर्ची कियोस्क)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* High-contrast accessible Kiosk styling */
+    body.kiosk-mode {
+      background: #090e17;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .kiosk-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 24px 20px 60px;
+      box-sizing: border-box;
+    }
+    .kiosk-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 20px 24px;
+      background: #131b2e;
+      border: 1px solid #22304d;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    .kiosk-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .kiosk-logo {
+      font-size: 36px;
+    }
+    .kiosk-brand h1 {
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0 0 4px;
+      color: #ffffff;
+    }
+    .kiosk-brand p {
+      font-size: 14px;
+      color: #94a3b8;
+      margin: 0;
+    }
+    .kiosk-audio-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .kiosk-audio-btn {
+      background: #0284c7;
+      color: #ffffff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .kiosk-audio-btn:hover {
+      background: #0369a1;
+      transform: scale(1.02);
+    }
+    .kiosk-step-pill {
+      background: #1e293b;
+      color: #38bdf8;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #334155;
+    }
+    .kiosk-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .kiosk-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .kiosk-card {
+      background: #131b2e;
+      border: 1px solid #22304d;
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .num-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #0284c7;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .section-title h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0;
+      color: #ffffff;
+    }
+    .body-map-container {
+      background: #090e17;
+      border: 1px solid #1e293b;
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .human-body-svg {
+      max-height: 420px;
+      width: 100%;
+    }
+    .body-zone {
+      fill: #1e293b;
+      stroke: #38bdf8;
+      stroke-width: 2.5;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .body-zone:hover {
+      fill: rgba(56, 189, 248, 0.4);
+    }
+    .body-zone.selected {
+      fill: #ef4444;
+      stroke: #fca5a5;
+      filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.7));
+    }
+    .svg-label {
+      fill: #94a3b8;
+      font-size: 13px;
+      font-weight: 700;
+      text-anchor: middle;
+      pointer-events: none;
+    }
+    .selected-regions-chips {
+      margin-top: 16px;
+      min-height: 36px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .no-selection-hint {
+      color: #64748b;
+      font-size: 14px;
+    }
+    .kiosk-chip {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid #ef4444;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .visual-symptoms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .symptom-card {
+      background: #090e17;
+      border: 2px solid #1e293b;
+      border-radius: 16px;
+      padding: 16px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .symptom-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+    .symptom-card.active {
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.15);
+      box-shadow: 0 0 16px rgba(239, 68, 68, 0.3);
+    }
+    .symptom-emoji {
+      font-size: 32px;
+    }
+    .symptom-card strong {
+      font-size: 13px;
+      color: #f1f5f9;
+    }
+    .symptom-card small {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .pain-scale-container {
+      background: #090e17;
+      border: 1px solid #1e293b;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .pain-scale-container h4 {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+    .pain-faces-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pain-face-btn {
+      flex: 1;
+      min-width: 58px;
+      background: #1e293b;
+      border: 2px solid transparent;
+      border-radius: 14px;
+      padding: 12px 6px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .pain-face-btn .face-emoji {
+      font-size: 24px;
+    }
+    .pain-face-btn.active {
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.2);
+      color: #fff;
+    }
+    .pain-face-btn.danger.active {
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.25);
+      color: #fff;
+    }
+    .kiosk-submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      border: none;
+      padding: 18px;
+      border-radius: 18px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.5);
+      transition: all 0.2s;
+    }
+    .kiosk-submit-btn:hover {
+      background: linear-gradient(135deg, #0369a1, #1d4ed8);
+      transform: translateY(-2px);
+    }
+    /* Printable Ticket Modal */
+    .kiosk-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+    .kiosk-modal-backdrop.hidden {
+      display: none;
+    }
+    .kiosk-ticket-slip {
+      background: #ffffff;
+      color: #090e17;
+      border-radius: 20px;
+      max-width: 440px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+    .ticket-header h3 {
+      font-size: 20px;
+      font-weight: 900;
+      margin: 0 0 4px;
+      color: #0f172a;
+    }
+    .ticket-header p {
+      font-size: 12px;
+      color: #64748b;
+      margin: 0 0 16px;
+    }
+    .ticket-number {
+      font-size: 28px;
+      font-weight: 900;
+      color: #0284c7;
+      letter-spacing: 2px;
+      padding: 10px;
+      background: #f0f9ff;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: 1px dashed #0284c7;
+    }
+    .ticket-body {
+      text-align: left;
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 0;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ticket-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+    .ticket-row span {
+      color: #64748b;
+    }
+    .ticket-row strong {
+      color: #0f172a;
+    }
+    .priority-tag {
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+    }
+    .priority-tag.urgent {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    .priority-tag.routine {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+    .barcode-lines {
+      font-family: monospace;
+      font-size: 20px;
+      letter-spacing: 3px;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .ticket-barcode small {
+      font-size: 11px;
+      color: #64748b;
+      display: block;
+      margin-bottom: 24px;
+    }
+    .ticket-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .ticket-actions button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="kiosk-mode">
+  <div id="kioskAppContainer"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

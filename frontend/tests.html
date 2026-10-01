@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MediLocker — Lab Investigations & Health Metrics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page patient-tests">
+  <header class="app-header">
+    <a class="brand" href="dashboard.html"><img src="logo-icon.png" class="brand-icon" alt="MediLocker"><span>Medi<span>Locker</span></span></a>
+    <div class="app-header-right">
+      <a href="tel:102" class="sos-btn" id="sosHeaderBtn" aria-label="Emergency Ambulance Call 102">
+        <span class="sos-pulse-ring"></span>
+        <span class="sos-icon">🚨</span>
+        <span>SOS 102</span>
+      </a>
+      <button class="location-btn" id="locationBtn">⌖ <span data-i18n="setLocation">Set location</span></button>
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+        <option value="hi">हिन्दी</option>
+        <option value="mr">मराठी</option>
+        <option value="ur">اردو</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
+      <a href="index.html" class="signin" data-logout>Log out</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="patient-mini">
+        <div class="avatar" data-user-initials>U</div>
+        <strong data-user-name>User</strong>
+        <small data-i18n="patientAccount">Patient account</small>
+      </div>
+      <nav class="side-nav">
+        <a href="dashboard.html">⌂ <span data-i18n="dashboard">Dashboard</span></a>
+        <a href="timeline.html">⏳ <span data-i18n="timelinePage">Health timeline</span></a>
+        <a href="records.html">▤ <span data-i18n="recordsPage">Medical records</span></a>
+        <a href="medications.html">✓ <span data-i18n="todoPage">Medication to-do</span></a>
+        <a href="inventory.html">⊞ <span data-i18n="inventoryPage">Medicine cabinet</span></a>
+        <a href="ai-companion.html">✦ <span data-i18n="aiCompanionPage">Medi-AI assistant</span></a>
+        <a class="active" href="tests.html">⚗ <span data-i18n="testsPage">Lab tests & vitals</span></a>
+        <a href="delegation.html">🛡 <span data-i18n="delegationPage">Consent & access</span></a>
+        <a href="upload.html">＋ <span data-i18n="uploadPage">Upload documents</span></a>
+        <a href="doctors.html">🩺 <span>Doctors & Appointments</span></a>
+        <a href="profile.html">◉ <span data-i18n="profilePage">My profile</span></a>
+      </nav>
+      <div class="side-bottom">
+        <a href="login.html">↪ <span data-i18n="switchPortal">Switch portal</span></a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">DIAGNOSTIC INVESTIGATIONS & VITALS</span>
+          <h1>Lab Tests & Health Metrics</h1>
+          <p>Track prescribed tests due, clinical diagnostic values, and daily biometric vitals with biological reference ranges.</p>
+        </div>
+        <button class="primary-btn" id="openLogVitalsModal">Log Daily Vitals ＋</button>
+      </div>
+
+      <!-- Tests Due Alert (shown dynamically when tests are scheduled) -->
+      <section class="refill-alert-box hidden" id="testsDueAlert" style="background:#eef4fc;border-color:#c8daf3;">
+        <div class="refill-icon" style="background:#d7e6fa;color:#205596;">⚗</div>
+        <div class="refill-content">
+          <h3 style="color:#194a85;" id="testsDueTitle">Clinical Investigation Due</h3>
+          <p style="color:#2f5179;" id="testsDueDesc">No upcoming lab investigations scheduled.</p>
+        </div>
+        <div class="refill-actions">
+          <a class="primary-btn" style="background:#205596;font-size:14px;padding:11px 18px;" href="upload.html">Upload Lab Report ↗</a>
+        </div>
+      </section>
+
+      <!-- Vitals At A Glance -->
+      <div class="section-row" style="margin:20px 0 16px;">
+        <span class="eyebrow">DAILY BIOMETRICS</span>
+        <h2>Health Metrics & Vitals</h2>
+      </div>
+
+      <div class="vitals-grid">
+        <div class="vital-card">
+          <span class="eyebrow" style="font-size:11px;">BLOOD PRESSURE</span>
+          <strong id="vitalBpVal">— / —</strong>
+          <small style="color:var(--muted);">mmHg · No recent log</small>
+          <span class="vital-tag" style="background:#f0edf2;color:var(--muted);">Awaiting Data</span>
+        </div>
+        <div class="vital-card">
+          <span class="eyebrow" style="font-size:11px;">HEART RATE</span>
+          <strong id="vitalPulseVal">—</strong>
+          <small style="color:var(--muted);">BPM · Resting pulse</small>
+          <span class="vital-tag" style="background:#f0edf2;color:var(--muted);">Awaiting Data</span>
+        </div>
+        <div class="vital-card">
+          <span class="eyebrow" style="font-size:11px;">OXYGEN SATURATION (SPO2)</span>
+          <strong id="vitalSpo2Val">—%</strong>
+          <small style="color:var(--muted);">Room air</small>
+          <span class="vital-tag" style="background:#f0edf2;color:var(--muted);">Awaiting Data</span>
+        </div>
+        <div class="vital-card">
+          <span class="eyebrow" style="font-size:11px;">BLOOD GLUCOSE (FASTING)</span>
+          <strong id="vitalSugarVal">—</strong>
+          <small style="color:var(--muted);">mg/dL · Fasting</small>
+          <span class="vital-tag" style="background:#f0edf2;color:var(--muted);">Awaiting Data</span>
+        </div>
+      </div>
+
+      <!-- Diagnostic Lab Findings Table -->
+      <div class="profile-card">
+        <div class="card-topline">
+          <span>PARSED CLINICAL REPORT FINDINGS</span>
+          <span class="live-dot">● Medi-AI Vision Ready</span>
+        </div>
+        <div id="labFindingsContainer" style="padding:10px 0;text-align:center;">
+          <div class="empty-state" id="labEmptyState" style="padding:32px 16px;text-align:center;">
+            <div class="empty-icon" style="font-size:36px;margin-bottom:10px;">⚗</div>
+            <h3 style="font:800 20px 'Manrope';margin:0 0 6px;">No diagnostic lab reports recorded yet</h3>
+            <p style="color:var(--muted);max-width:440px;margin:0 auto 18px;font-size:14px;">Upload your blood tests, metabolic panels, or pathology reports to automatically extract and plot laboratory analytes with Medi-AI.</p>
+            <a href="upload.html" class="primary-btn" style="display:inline-block;">Upload Lab Report ↗</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Log Vitals Modal -->
+  <div class="modal hidden" id="logVitalsModal">
+    <div class="modal-card" style="max-width:500px;text-align:left;">
+      <button class="modal-close" id="closeLogVitalsModal">×</button>
+      <span class="eyebrow">HEALTH METRICS</span>
+      <h2 style="font:800 24px 'Manrope';margin:6px 0 16px;">Log Today's Vitals</h2>
+      <form id="logVitalsForm">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <label style="font-weight:700;font-size:14px;">
+            Systolic BP (mmHg)
+            <input type="number" id="vitalSys" required placeholder="120" style="display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px;">
+          </label>
+          <label style="font-weight:700;font-size:14px;">
+            Diastolic BP (mmHg)
+            <input type="number" id="vitalDia" required placeholder="80" style="display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px;">
+          </label>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;">
+          <label style="font-weight:700;font-size:14px;">
+            Pulse / Heart Rate
+            <input type="number" id="vitalPulse" placeholder="72" style="display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px;">
+          </label>
+          <label style="font-weight:700;font-size:14px;">
+            Oxygen SpO2 (%)
+            <input type="number" id="vitalSpo2" placeholder="99" style="display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px;">
+          </label>
+        </div>
+        <button type="submit" class="primary-btn full">Save Vitals ↗</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Medi-AI Companion Trigger -->
+  <a href="ai-companion.html" class="floating-ai-btn">
+    <span>✦</span> Ask Medi-AI
+  </a>
+
+  <!-- Mobile SaaS Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <ul class="mobile-nav-items">
+      <li><a href="dashboard.html" class="mobile-nav-item"><span>⌂</span><span>Home</span></a></li>
+      <li><a href="timeline.html" class="mobile-nav-item"><span>⏳</span><span>Timeline</span></a></li>
+      <li><a href="records.html" class="mobile-nav-item"><span>📋</span><span>Records</span></a></li>
+      <li><a href="medications.html" class="mobile-nav-item"><span>✓</span><span>To-Do</span></a></li>
+      <li><a href="inventory.html" class="mobile-nav-item"><span>⊞</span><span>Cabinet</span></a></li>
+      <li><a href="ai-companion.html" class="mobile-nav-item"><span>✦</span><span>Medi-AI</span></a></li>
+    </ul>
+  </nav>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MediLocker — Page Not Found (404)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page">
+  <header class="app-header">
+    <a class="brand" href="index.html"><img src="logo-icon.png" class="brand-icon" alt="MediLocker"><span>Medi<span>Locker</span></span></a>
+    <div class="app-header-right">
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+        <option value="hi">हिन्दी</option>
+        <option value="mr">मराठी</option>
+        <option value="ur">اردو</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
+      <a href="login.html" class="signin">Sign in ↗</a>
+    </div>
+  </header>
+
+  <main style="max-width:800px;margin:80px auto;padding:0 24px;text-align:center;">
+    <div style="width:90px;height:90px;border-radius:28px;background:var(--lav);color:var(--plum);font:800 36px 'Manrope';display:grid;place-items:center;margin:0 auto 24px;">404</div>
+    <span class="eyebrow">ROUTE NOT FOUND</span>
+    <h1 style="font:800 clamp(36px,5vw,56px)/1.05 'Manrope';letter-spacing:-2px;margin:14px 0 18px;">This clinical room doesn't exist.</h1>
+    <p style="color:var(--muted);font-size:18px;line-height:1.6;margin:0 auto 32px;max-width:560px;">The requested address could not be located on MediLocker. It may have been moved, renamed, or temporarily unavailable.</p>
+    
+    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+      <a class="primary-btn" href="dashboard.html">Go to Patient Dashboard ↗</a>
+      <a class="secondary-btn" href="index.html">Return to Home</a>
+    </div>
+
+    <div style="margin-top:50px;padding:24px;border-radius:20px;background:var(--white);border:1px solid var(--line);text-align:left;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div>
+        <strong style="font:700 15px 'Manrope';display:block;">Patient Workspace</strong>
+        <a href="dashboard.html" style="color:var(--plum);font-size:13px;display:block;margin-top:4px;">Dashboard</a>
+        <a href="timeline.html" style="color:var(--plum);font-size:13px;display:block;margin-top:2px;">Timeline</a>
+        <a href="records.html" style="color:var(--plum);font-size:13px;display:block;margin-top:2px;">Medical Records</a>
+      </div>
+      <div>
+        <strong style="font:700 15px 'Manrope';display:block;">Smart Features</strong>
+        <a href="inventory.html" style="color:var(--plum);font-size:13px;display:block;margin-top:4px;">Medicine Cabinet</a>
+        <a href="ai-companion.html" style="color:var(--plum);font-size:13px;display:block;margin-top:2px;">Medi-AI Assistant</a>
+        <a href="tests.html" style="color:var(--plum);font-size:13px;display:block;margin-top:2px;">Lab Tests & Vitals</a>
+      </div>
+      <div>
+        <strong style="font:700 15px 'Manrope';display:block;">Healthcare Portals</strong>
+        <a href="doctor.html" style="color:var(--plum);font-size:13px;display:block;margin-top:4px;">Doctor Portal</a>
+        <a href="hospital.html" style="color:var(--plum);font-size:13px;display:block;margin-top:2px;">Hospital Portal</a>
+        <a href="delegation.html" style="color:var(--plum);font-size:13px;display:block;margin-top:2px;">Consent & Access</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

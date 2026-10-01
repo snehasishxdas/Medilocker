@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MediLocker — Sign Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-page signup-page">
+<header class="site-header"><a class="brand" href="index.html"><img src="logo-icon.png" class="brand-icon" alt="MediLocker"><span>Medi<span>Locker</span></span></a>
+<div class="header-actions"><button class="location-btn" id="locationBtn">⌖ <span data-i18n="setLocation">Set location</span></button><select id="languageSelect"><option value="en">English</option><option value="bn">বাংলা</option><option value="hi">हिन्दी</option><option value="mr">मराठी</option><option value="ur">اردو</option><option value="pa">ਪੰਜਾਬੀ</option><option value="kn">ಕನ್ನಡ</option></select></div></header>
+
+<main class="login-shell signup-shell">
+<section class="login-intro"><span class="eyebrow">04 / REGISTRATION</span><h1>Create your MediLocker.</h1><p>Choose the account type first. MediLocker uses a different registration form for patients, doctors and hospitals.</p></section>
+<section class="login-card signup-card">
+<div class="role-heading"><span class="eyebrow">ACCOUNT TYPE</span><h2>Who are you registering as?</h2></div>
+<div class="signup-role-grid" id="signupRoleGrid">
+<label class="signup-role selected"><input type="radio" name="role" value="patient" checked><span class="signup-role-icon">♡</span><span><strong>Patient</strong><small>Personal health records</small></span></label>
+<label class="signup-role"><input type="radio" name="role" value="doctor"><span class="signup-role-icon">✚</span><span><strong>Doctor</strong><small>Professional medical access</small></span></label>
+<label class="signup-role"><input type="radio" name="role" value="hospital"><span class="signup-role-icon">▦</span><span><strong>Hospital</strong><small>Institutional care access</small></span></label>
+</div>
+
+<form id="signupForm" novalidate>
+<!-- PATIENT FORM -->
+<div id="patientFields" class="role-fields">
+<div class="signup-section"><div class="section-kicker">PATIENT · IDENTITY</div><h3>Personal details</h3><div class="form-grid">
+<label><span>Full name *</span><input name="patientName" data-required="patient" autocomplete="name"></label>
+<label><span>Email address *</span><input name="patientEmail" type="email" data-required="patient" autocomplete="email"></label>
+<label><span>Phone number *</span><input name="patientPhone" type="tel" data-required="patient" autocomplete="tel"></label>
+<label><span>Date of birth</span><input name="dob" type="date"></label>
+<label><span>Gender</span><select name="gender"><option>Prefer not to say</option><option>Female</option><option>Male</option><option>Other</option></select></label>
+<label><span>Blood group</span><select name="blood"><option>Not specified</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></label>
+<label><span>Government ID / Aadhaar</span><input name="govid"></label>
+<label><span>Medical insurance</span><input name="insurance" placeholder="Provider / policy details"></label>
+</div></div>
+<div class="signup-section"><div class="section-kicker">PATIENT · HEALTH</div><h3>Health information</h3><div class="form-grid">
+<label class="wide"><span>Allergies, if any</span><textarea name="allergy" rows="3" placeholder="Drug, food or other allergies"></textarea></label>
+<label class="wide"><span>Current medications, if any</span><textarea name="medications" rows="3" placeholder="Medicine name, dosage and frequency"></textarea></label>
+<label class="wide"><span>Existing medical conditions / history</span><textarea name="history" rows="3"></textarea></label>
+<label><span>Emergency contact</span><input name="emergency"></label>
+</div></div>
+<div class="signup-section"><div class="section-kicker">PATIENT · LOCATION</div><h3>Address</h3><div class="form-grid">
+<label class="wide"><span>Address</span><input name="address"></label><label><span>City</span><input name="city"></label><label><span>State</span><input name="state"></label><label><span>PIN code</span><input name="pincode" inputmode="numeric"></label>
+</div></div>
+</div>
+
+<!-- DOCTOR FORM -->
+<div id="doctorFields" class="role-fields hidden">
+<div class="signup-section"><div class="section-kicker">DOCTOR · PROFESSIONAL IDENTITY</div><h3>Doctor details</h3><div class="form-grid">
+<label><span>Doctor's full name *</span><input name="doctorName" data-required="doctor" autocomplete="name"></label>
+<label><span>Professional email *</span><input name="doctorEmail" type="email" data-required="doctor" autocomplete="email"></label>
+<label><span>Professional contact *</span><input name="doctorPhone" type="tel" data-required="doctor" autocomplete="tel"></label>
+<label><span>Medical Degree / Qualifications *</span><input name="doctorDegree" data-required="doctor" placeholder="e.g. MBBS, MD, MS, DM"></label>
+<label><span>Doctor ID *</span><input name="doctorId" data-required="doctor" placeholder="Government / institutional ID"></label>
+<label><span>Medical registration number *</span><input name="registrationNumber" data-required="doctor" placeholder="State / National registration no."></label>
+<label><span>Specialization *</span><select name="specialization" data-required="doctor"><option value="">Select specialization</option><option>General Medicine</option><option>Cardiology</option><option>Dermatology</option><option>Neurology</option><option>Pediatrics</option><option>Orthopedics</option><option>Gynecology</option><option>Psychiatry</option><option>Other</option></select></label>
+<label><span>Registration date</span><input name="registrationDate" type="date"></label><label><span>Years of experience</span><input name="experience" type="number" min="0"></label>
+</div></div>
+<div class="signup-section"><div class="section-kicker">DOCTOR · PRACTICE & VERIFICATION</div><h3>Clinic details & certificate</h3><div class="form-grid">
+<label><span>Clinic / hospital name *</span><input name="clinicName" data-required="doctor"></label>
+<label><span>Clinic verification reference</span><input name="clinicVerification" placeholder="Verification / license reference"></label>
+<label class="wide"><span>Clinic address *</span><input name="clinicAddress" data-required="doctor"></label>
+<label><span>City *</span><input name="doctorCity" data-required="doctor"></label>
+<label><span>State</span><input name="doctorState"></label>
+<div class="wide" style="background:#fcfaff;border:1px dashed var(--plum);border-radius:14px;padding:16px;margin-top:6px;">
+  <span style="font-weight:700;font-size:14px;color:var(--plum);display:block;margin-bottom:8px;">Doctor Medical Registration Certificate *</span>
+  <p style="font-size:13px;color:var(--muted);margin:0 0 12px;">Upload a scan/photo of your state or national medical council certificate, or capture live using your device camera.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+    <input type="file" id="doctorCertFileInput" accept=".pdf,.png,.jpg,.jpeg" style="display:none;">
+    <button type="button" class="secondary-btn" id="doctorCertUploadBtn">Choose Document File 📁</button>
+    <button type="button" class="secondary-btn" id="doctorCertCameraBtn" style="background:#fbf8fc;border-color:var(--plum);color:var(--plum);">📸 Live Camera Capture</button>
+    <span id="doctorCertName" style="font-size:13px;font-weight:600;color:#2e6b35;"></span>
+  </div>
+  <input type="hidden" name="doctorCertificateUrl" id="doctorCertificateUrl">
+  <div id="doctorCertPreview" style="margin-top:12px;display:none;">
+    <img id="doctorCertPreviewImg" style="max-width:240px;max-height:160px;border-radius:8px;border:1px solid var(--line);display:block;">
+  </div>
+</div>
+</div></div>
+</div>
+
+<!-- HOSPITAL FORM -->
+<div id="hospitalFields" class="role-fields hidden">
+<div class="signup-section"><div class="section-kicker">HOSPITAL · INSTITUTIONAL IDENTITY</div><h3>Hospital details</h3><div class="form-grid">
+<label><span>Hospital name *</span><input name="hospitalName" data-required="hospital"></label>
+<label><span>Official email *</span><input name="hospitalEmail" type="email" data-required="hospital" autocomplete="email"></label>
+<label><span>Hospital contact *</span><input name="hospitalPhone" type="tel" data-required="hospital" autocomplete="tel"></label>
+<label><span>Hospital ID *</span><input name="hospitalId" data-required="hospital" placeholder="Institutional hospital ID"></label>
+<label><span>Registration / license number *</span><input name="hospitalLicense" data-required="hospital"></label>
+<label><span>Registration / license date</span><input name="hospitalRegDate" type="date"></label>
+<label><span>Managing Director (MD) Name *</span><input name="mdName" data-required="hospital" placeholder="Medical Director / Managing Director"></label>
+<label><span>MD Contact Phone *</span><input name="mdPhone" type="tel" data-required="hospital" placeholder="MD direct phone"></label>
+</div></div>
+<div class="signup-section"><div class="section-kicker">HOSPITAL · LOCATION, OWNERSHIP & SCHEMES</div><h3>Institution information</h3><div class="form-grid">
+<label class="wide"><span>Hospital address *</span><input name="hospitalAddress" data-required="hospital"></label>
+<label><span>City *</span><input name="hospitalCity" data-required="hospital"></label>
+<label><span>State</span><input name="hospitalState"></label>
+<label><span>Hospital Sector / Ownership *</span><select name="hospitalOwnership" data-required="hospital"><option value="PRIVATE">Private Hospital / Healthcare</option><option value="PUBLIC">Public / Government Hospital</option></select></label>
+<label><span>Hospital type</span><select name="hospitalType"><option>General Hospital</option><option>Specialty Hospital</option><option>Government Hospital</option><option>Private Hospital</option><option>Clinic / Nursing Home</option><option>Other</option></select></label>
+<label><span>Bed capacity</span><input name="beds" type="number" min="0"></label>
+<label><span>Authorized representative</span><input name="representative"></label>
+
+<div class="wide" style="background:#fcfaff;border:1px solid var(--line);border-radius:14px;padding:16px;margin:6px 0;">
+  <span style="font-weight:700;font-size:14px;color:var(--plum);display:block;margin-bottom:6px;">Government Healthcare Schemes Availability *</span>
+  <p style="font-size:13px;color:var(--muted);margin:0 0 10px;">Are government empanelled healthcare schemes (Ayushman Bharat, CGHS, State Schemes) accepted here?</p>
+  <div style="display:flex;gap:18px;align-items:center;margin-bottom:12px;">
+    <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;"><input type="radio" name="govtSchemesAvailable" value="yes" checked> <strong>Yes, Schemes Accepted</strong></label>
+    <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;"><input type="radio" name="govtSchemesAvailable" value="no"> <strong>No Government Schemes</strong></label>
+  </div>
+  <div id="schemesOptionsList" style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;">
+    <label style="display:inline-flex;align-items:center;gap:6px;"><input type="checkbox" name="schemeItem" value="Ayushman Bharat (PM-JAY)" checked> Ayushman Bharat (PM-JAY)</label>
+    <label style="display:inline-flex;align-items:center;gap:6px;"><input type="checkbox" name="schemeItem" value="CGHS" checked> CGHS</label>
+    <label style="display:inline-flex;align-items:center;gap:6px;"><input type="checkbox" name="schemeItem" value="State Health Insurance / Aarogyasri"> State Health Insurance / Aarogyasri</label>
+    <label style="display:inline-flex;align-items:center;gap:6px;"><input type="checkbox" name="schemeItem" value="Swasthya Sathi / ECHS"> Swasthya Sathi / ECHS</label>
+  </div>
+</div>
+
+<div class="wide" style="background:#fcfaff;border:1px dashed var(--plum);border-radius:14px;padding:16px;margin-top:6px;">
+  <span style="font-weight:700;font-size:14px;color:var(--plum);display:block;margin-bottom:8px;">Hospital / Clinic Registration Certificate *</span>
+  <p style="font-size:13px;color:var(--muted);margin:0 0 12px;">Upload the clinical establishment registration or hospital operating license, or capture via camera.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+    <input type="file" id="hospitalCertFileInput" accept=".pdf,.png,.jpg,.jpeg" style="display:none;">
+    <button type="button" class="secondary-btn" id="hospitalCertUploadBtn">Choose Certificate File 📁</button>
+    <button type="button" class="secondary-btn" id="hospitalCertCameraBtn" style="background:#fbf8fc;border-color:var(--plum);color:var(--plum);">📸 Live Camera Capture</button>
+    <span id="hospitalCertName" style="font-size:13px;font-weight:600;color:#2e6b35;"></span>
+  </div>
+  <input type="hidden" name="hospitalCertificateUrl" id="hospitalCertificateUrl">
+  <div id="hospitalCertPreview" style="margin-top:12px;display:none;">
+    <img id="hospitalCertPreviewImg" style="max-width:240px;max-height:160px;border-radius:8px;border:1px solid var(--line);display:block;">
+  </div>
+</div>
+</div></div>
+</div>
+
+<label class="consent"><input id="signupConsent" type="checkbox" required><span>I confirm that the information provided is accurate. A unique MediLocker Unit ID will be generated for this account.</span></label>
+<button class="primary-btn full" type="submit">Create account & generate Unit ID ↗</button>
+<p class="signup-prompt">Already registered? <a href="login.html">Sign in with Email + Unit ID →</a></p>
+</form></section></main>
+
+<div class="modal hidden" id="unitModal">
+  <div class="modal-card" style="text-align:center;max-width:520px;">
+    <button class="modal-close" id="closeUnit" type="button">×</button>
+    <div class="success-icon">✓</div>
+    <h2>Account Created Successfully!</h2>
+    <div class="generated-id" id="generatedUnit" style="font-size:26px;letter-spacing:2px;margin:16px 0;"></div>
+    <p id="unitMessage" style="font-size:14px;color:var(--muted);line-height:1.6;margin:0 0 24px;text-align:left;background:#fdfaff;border:1px solid #f0e6f6;padding:14px;border-radius:12px;"></p>
+    <button class="primary-btn full" id="goLogin" type="button">Continue to Login →</button>
+  </div>
+</div>
+
+<!-- Camera Capture Modal -->
+<div class="modal hidden" id="cameraModal">
+  <div class="modal-card" style="max-width:540px;width:95%;text-align:center;padding:28px;">
+    <button class="modal-close" id="closeCameraModal" type="button">×</button>
+    <h3 style="font:800 20px 'Manrope';margin:0 0 12px;">Capture Document Certificate</h3>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Align your medical certificate or registration license in front of the camera.</p>
+    <div style="background:#000;border-radius:12px;overflow:hidden;margin-bottom:16px;max-height:320px;display:flex;justify-content:center;align-items:center;">
+      <video id="cameraVideo" autoplay playsinline style="width:100%;max-height:320px;object-fit:cover;"></video>
+    </div>
+    <canvas id="cameraCanvas" style="display:none;"></canvas>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button type="button" class="primary-btn" id="takePhotoBtn">📸 Take Photo</button>
+      <button type="button" class="secondary-btn" id="cancelCameraBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/i18n.js"></script><script src="js/main.js"></script>
+</body></html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MediLocker — Patient Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page patient-dashboard">
+  <header class="app-header">
+    <a class="brand" href="dashboard.html"><img src="logo-icon.png" class="brand-icon" alt="MediLocker"><span>Medi<span>Locker</span></span></a>
+    <div class="app-header-right">
+      <a href="tel:102" class="sos-btn" id="sosHeaderBtn" aria-label="Emergency Ambulance Call 102">
+        <span class="sos-pulse-ring"></span>
+        <span class="sos-icon">🚨</span>
+        <span>SOS 102</span>
+      </a>
+      <button class="location-btn" id="locationBtn">⌖ <span data-i18n="setLocation">Set location</span></button>
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+        <option value="hi">हिन्दी</option>
+        <option value="mr">मराठी</option>
+        <option value="ur">اردو</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
+      <a href="index.html" class="signin" data-logout>Log out</a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="patient-mini">
+        <div class="avatar" data-user-initials>U</div>
+        <strong data-user-name>User</strong>
+        <small data-i18n="patientAccount">Patient account</small>
+      </div>
+      <nav class="side-nav">
+        <a class="active" href="dashboard.html">⌂ <span data-i18n="dashboard">Dashboard</span></a>
+        <a href="timeline.html">⏳ <span data-i18n="timelinePage">Health timeline</span></a>
+        <a href="records.html">▤ <span data-i18n="recordsPage">Medical records</span></a>
+        <a href="medications.html">✓ <span data-i18n="todoPage">Medication to-do</span></a>
+        <a href="inventory.html">⊞ <span data-i18n="inventoryPage">Medicine cabinet</span></a>
+        <a href="ai-companion.html">✦ <span data-i18n="aiCompanionPage">Medi-AI assistant</span></a>
+        <a href="tests.html">⚗ <span data-i18n="testsPage">Lab tests & vitals</span></a>
+        <a href="delegation.html">🛡 <span data-i18n="delegationPage">Consent & access</span></a>
+        <a href="upload.html">＋ <span data-i18n="uploadPage">Upload documents</span></a>
+        <a href="kiosk.html" style="color:#38bdf8;">🏥 <span>OPD Touch Kiosk</span></a>
+        <a href="vaidya.html" style="color:#f59e0b;">🩺 <span>Vaidya 30s Chart</span></a>
+        <a href="profile.html">◉ <span data-i18n="profilePage">My profile</span></a>
+      </nav>
+      <div class="side-bottom">
+        <a href="login.html">↪ <span data-i18n="switchPortal">Switch portal</span></a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">PATIENT DASHBOARD</span>
+          <h1>Welcome back, <span data-user-name>User</span>.</h1>
+          <p>Your personal health information is organized here. Access your timeline, prescriptions, household medicine cabinet, and Medi-AI assistant.</p>
+        </div>
+        <a class="primary-btn" href="upload.html">Upload a record ↗</a>
+      </div>
+
+      <div class="dashboard-grid">
+        <section class="summary-card accent">
+          <span>YOUR MEDILOCKER UNIT ID</span>
+          <strong data-user-unit>—</strong>
+          <small>Use this ID when sharing access with an authorized healthcare provider.</small>
+        </section>
+        <section class="summary-card">
+          <span>PROFILE STATUS</span>
+          <strong>Ready</strong>
+          <small>Personal details and emergency contacts configured.</small>
+        </section>
+        <section class="summary-card">
+          <span>ACTIVE MEDICINES</span>
+          <strong id="dashMedsCount">0 Active</strong>
+          <small>Tracked under today's medication routine.</small>
+        </section>
+        <section class="summary-card">
+          <span>HEALTH METRICS</span>
+          <strong style="color:#4e9e57;" id="dashMetricsStatus">Up to date</strong>
+          <small>Personalized timeline and biometric records.</small>
+        </section>
+      </div>
+
+      <div class="section-row">
+        <div>
+          <span class="eyebrow">QUICK ACCESS</span>
+          <h2>Your health workspace.</h2>
+        </div>
+      </div>
+
+      <div class="quick-grid">
+        <a href="timeline.html" class="quick-card">
+          <span style="background:var(--lav);">⏳</span>
+          <div>
+            <strong>Health timeline</strong>
+            <small>Chronological ddmmyyyy history & feeling check-in.</small>
+          </div>
+          ↗
+        </a>
+        <a href="records.html" class="quick-card">
+          <span>▤</span>
+          <div>
+            <strong>Medical records</strong>
+            <small>Prescriptions, reports and history.</small>
+          </div>
+          ↗
+        </a>
+        <a href="medications.html" class="quick-card todo">
+          <span>✓</span>
+          <div>
+            <strong>Medication to-do</strong>
+            <small>Daily medicine schedule and streak.</small>
+          </div>
+          ↗
+        </a>
+        <a href="inventory.html" class="quick-card">
+          <span style="background:var(--peach);">⊞</span>
+          <div>
+            <strong>Medicine cabinet</strong>
+            <small>Household supplies & 2-day refill alerts.</small>
+          </div>
+          ↗
+        </a>
+        <a href="ai-companion.html" class="quick-card">
+          <span style="background:var(--plum);color:#fff;">✦</span>
+          <div>
+            <strong>Medi-AI assistant</strong>
+            <small>Symptom triage & safe OTC home remedies.</small>
+          </div>
+          ↗
+        </a>
+        <a href="tests.html" class="quick-card">
+          <span style="background:var(--sage);">⚗</span>
+          <div>
+            <strong>Lab tests & vitals</strong>
+            <small>Tests due alerts & diagnostic parameters.</small>
+          </div>
+          ↗
+        </a>
+        <a href="delegation.html" class="quick-card">
+          <span style="background:#e8dfd8;">🛡</span>
+          <div>
+            <strong>Consent & access</strong>
+            <small>Manage doctor and hospital authorizations.</small>
+          </div>
+          ↗
+        </a>
+        <a href="doctors.html" class="quick-card" style="border-left:4px solid #6366f1;">
+          <span style="background:#eef2ff;color:#6366f1;">🩺</span>
+          <div>
+            <strong>Doctors & Appointments</strong>
+            <small>Find nearby clinics, view doctors & book consultations.</small>
+          </div>
+          ↗
+        </a>
+        <a href="kiosk.html" class="quick-card" style="border-left:4px solid #0284c7;">
+          <span style="background:#e0f2fe;color:#0284c7;">🏥</span>
+          <div>
+            <strong>Low-Literacy OPD Kiosk Mode</strong>
+            <small>Touchscreen interactive body-map with regional voice prompts.</small>
+          </div>
+          ↗
+        </a>
+        <a href="vaidya.html" class="quick-card" style="border-left:4px solid #f59e0b;">
+          <span style="background:#fef3c7;color:#b45309;">🩺</span>
+          <div>
+            <strong>30-Second Vaidya Dashboard</strong>
+            <small>Physician clinical summary, NAMASTE & ICD-11 TM2 double codes.</small>
+          </div>
+          ↗
+        </a>
+        <a href="upload.html" class="quick-card">
+          <span>＋</span>
+          <div>
+            <strong>Upload documents</strong>
+            <small>Add prescriptions and diagnostic reports.</small>
+          </div>
+          ↗
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <!-- Floating Medi-AI Companion Trigger -->
+  <a href="ai-companion.html" class="floating-ai-btn">
+    <span>✦</span> Ask Medi-AI
+  </a>
+
+  <!-- Mobile SaaS Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <ul class="mobile-nav-items">
+      <li><a href="dashboard.html" class="mobile-nav-item active"><span>⌂</span><span>Home</span></a></li>
+      <li><a href="timeline.html" class="mobile-nav-item"><span>⏳</span><span>Timeline</span></a></li>
+      <li><a href="records.html" class="mobile-nav-item"><span>📋</span><span>Records</span></a></li>
+      <li><a href="medications.html" class="mobile-nav-item"><span>✓</span><span>To-Do</span></a></li>
+      <li><a href="inventory.html" class="mobile-nav-item"><span>⊞</span><span>Cabinet</span></a></li>
+      <li><a href="ai-companion.html" class="mobile-nav-item"><span>✦</span><span>Medi-AI</span></a></li>
+    </ul>
+  </nav>
+
+  <script src="js/i18n.js"></script>
+  <script type="module" src="js/app.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+# ==============================
+# MediLocker - Global Gitignore
+# ==============================
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build output
+dist/
+build/
+out/
+.next/
+.nuxt/
+coverage/
+
+# Logs
+*.log
+logs/
+
+# Uploads
+uploads/
+backend/uploads/
+
+# Cache
+.cache/
+.parcel-cache/
+.vite/
+.eslintcache
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Python packaging
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+
+# Database / local development
+*.sqlite
+*.sqlite3
+*.db
+
+# Secrets / credentials
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# Frontend environment files
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Backend environment files
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Test suites, scripts, and coverage
+test/
+tests/
+__tests__/
+coverage/
+.nyc_output/
+*.test.ts
+*.test.js
+*.test.mjs
+*.test.cjs
+*.spec.ts
+*.spec.js
+*.spec.mjs
+*.spec.cjs
+test-*.js
+test-*.ts
+clean-*.js
+test_*.py
+!frontend/tests.html
+
+# Reference documents and schema dumps
+docx/
+backend/prisma/supabase_schema.sql
+reference/
+references/
+scratch/
+*.scratch
+*.sql.bak
+*.bak
+
+
