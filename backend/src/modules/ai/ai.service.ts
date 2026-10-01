@@ -39,6 +39,7 @@ export class AIService {
   }
 
   private static getKeyPool(dedicatedKey?: string): string[] {
+    const isMistralKey = (k?: string) => Boolean(k && !k.startsWith('AQ.') && !k.startsWith('AIza'));
     const primary = (dedicatedKey || env.MISTRAL_API_KEY || '').trim();
     const fallbacks = [
       env.MISTRAL_API_KEY_DOCUMENT_OCR,
@@ -52,9 +53,9 @@ export class AIService {
       env.MISTRAL_API_KEY_2,
     ]
       .map((k) => (k || '').trim())
-      .filter(Boolean);
+      .filter(isMistralKey);
 
-    return Array.from(new Set([primary, ...fallbacks])).filter(Boolean);
+    return Array.from(new Set([primary, ...fallbacks])).filter(isMistralKey);
   }
 
   private static async runMistralOcr(fileBuffer: Buffer, mimeType: string, dedicatedKey?: string): Promise<string> {
@@ -143,6 +144,42 @@ export class AIService {
     }
 
     throw lastError || new Error('All Mistral chat keys failed');
+  }
+
+  private static async runGemmaChat(prompt: string, dedicatedKey?: string): Promise<string> {
+    const key = (
+      dedicatedKey ||
+      env.GEMMA_API_KEY ||
+      (env.MISTRAL_API_KEY_DOUBLE_CODING?.startsWith('AQ.') || env.MISTRAL_API_KEY_DOUBLE_CODING?.startsWith('AIza') ? env.MISTRAL_API_KEY_DOUBLE_CODING : '') ||
+      env.GEMINI_API_KEY ||
+      ''
+    ).trim();
+
+    if (!key) throw new Error('No Gemma / Google AI Studio API key configured');
+
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemma-4-26b-a4b-it:generateContent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': key,
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+      }),
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`Gemma 4 API status ${res.status}: ${errText}`);
+    }
+
+    const data = (await res.json()) as any;
+    const parts = data.candidates?.[0]?.content?.parts || [];
+    let text = parts.filter((p: any) => !p.thought).map((p: any) => p.text).join('').trim();
+    if (!text) {
+      text = parts.map((p: any) => p.text).join('').trim();
+    }
+    return text;
   }
 
   static async analyzeDocument(
@@ -855,16 +892,32 @@ Output strictly valid JSON:
 }`;
 
     try {
-      const responseText = await this.runMistralChat(
-        [
-          { role: 'system', content: 'You are a medical informatics ontology classifier. Output ONLY valid JSON.' },
-          { role: 'user', content: prompt },
-        ],
-        true,
-        env.MISTRAL_API_KEY_DOUBLE_CODING
-      );
+      const gemmaKey = (
+        env.GEMMA_API_KEY ||
+        (env.MISTRAL_API_KEY_DOUBLE_CODING?.startsWith('AQ.') || env.MISTRAL_API_KEY_DOUBLE_CODING?.startsWith('AIza') ? env.MISTRAL_API_KEY_DOUBLE_CODING : '') ||
+        env.GEMINI_API_KEY ||
+        ''
+      ).trim();
 
-      const cleaned = responseText.replace(/^```json/i, '').replace(/```$/i, '').trim();
+      let responseText: string;
+      if (gemmaKey) {
+        responseText = await this.runGemmaChat(prompt, gemmaKey);
+      } else {
+        responseText = await this.runMistralChat(
+          [
+            { role: 'system', content: 'You are a medical informatics ontology classifier. Output ONLY valid JSON.' },
+            { role: 'user', content: prompt },
+          ],
+          true,
+          env.MISTRAL_API_KEY_DOUBLE_CODING
+        );
+      }
+
+      const cleaned = responseText
+        .replace(/```(?:json)?\s*([\s\S]*?)\s*```/i, '$1')
+        .replace(/^```json/i, '')
+        .replace(/```$/i, '')
+        .trim();
       return JSON.parse(cleaned);
     } catch (err: any) {
       logger.error('Double-coding ontology error:', err?.message);
@@ -928,7 +981,7 @@ Output strictly valid JSON:
     try {
       const intakeDir = path.join(process.cwd(), 'uploads', 'intake', patientId);
       if (fs.existsSync(intakeDir)) {
-        const files = fs.readdirSync(intakeDir).filter((f) => f.endsWith('.json')).slice(-5);
+        const files = fs.readdirSync(intakeDir).filter((f: string) => f.endsWith('.json')).slice(-5);
         for (const file of files) {
           const content = fs.readFileSync(path.join(intakeDir, file), 'utf-8');
           voiceIntakes.push(JSON.parse(content));
@@ -943,13 +996,13 @@ Output strictly valid JSON:
     const realAllergiesSet = new Set<string>();
 
     if (patient?.baselineAllergies) {
-      patient.baselineAllergies.split(',').forEach((a) => {
+      patient.baselineAllergies.split(',').forEach((a: string) => {
         const tr = a.trim();
         if (tr && tr.toLowerCase() !== 'none' && tr.toLowerCase() !== 'no') realAllergiesSet.add(tr);
       });
     }
 
-    records.forEach((r) => {
+    records.forEach((r: any) => {
       if (r.userNote) realSummaries.push(r.userNote);
       if (r.timelineEvent) {
         if (Array.isArray(r.timelineEvent.diagnoses)) {
@@ -991,7 +1044,7 @@ Output strictly valid JSON:
 
     const uniqueDiagnoses = Array.from(new Set(realDiagnoses));
     const uniqueAllergies = Array.from(realAllergiesSet);
-    const uniqueMedNames = Array.from(new Set(activeMeds.map((m) => m.medicineName)));
+    const uniqueMedNames = Array.from(new Set(activeMeds.map((m: any) => m.medicineName)));
 
     const clinicalContext = {
       name: patient?.fullName || 'Patient',
@@ -1003,21 +1056,21 @@ Output strictly valid JSON:
       chronicConditions: patient?.chronicConditions || [],
       medicalHistory: patient?.medicalHistory || 'None documented',
       uploadedRecordsCount: records.length,
-      activeMedications: activeMeds.map((m) => ({
+      activeMedications: activeMeds.map((m: any) => ({
         name: m.medicineName,
         activeSalt: m.activeSalt || undefined,
         dosage: m.dosage,
         frequency: m.frequency,
         timing: m.timingInstruction,
       })),
-      recentDocumentExtracts: records.slice(0, 5).map((r) => ({
+      recentDocumentExtracts: records.slice(0, 5).map((r: any) => ({
         type: r.documentType,
         filename: r.originalFilename,
         diagnoses: r.timelineEvent?.diagnoses,
         summary: r.timelineEvent?.clinicalSummary || r.userNote,
         date: r.timelineEvent?.eventDateDdmmyyyy || r.uploadedAt,
       })),
-      recentFeelingTrajectory: recentFeeling.map((f) => ({
+      recentFeelingTrajectory: recentFeeling.map((f: any) => ({
         date: f.logDate,
         score: f.feelingScore,
         color: f.severityColor,
@@ -1067,7 +1120,7 @@ Output strictly valid JSON:
   "recommendedClinicalPlan": ["Guideline 1", "Guideline 2", "Guideline 3"]
 }`;
 
-    const realPrescribedMeds = activeMeds.map((m) => ({
+    const realPrescribedMeds = activeMeds.map((m: any) => ({
       medicineName: m.medicineName,
       activeSalt: m.activeSalt || undefined,
       dosage: m.dosage || 'As prescribed',
@@ -1075,7 +1128,7 @@ Output strictly valid JSON:
       timingInstruction: m.timingInstruction || undefined,
     }));
 
-    const realPastHistory = records.map((r) => ({
+    const realPastHistory = records.map((r: any) => ({
       filename: r.originalFilename,
       type: r.documentType,
       date: r.timelineEvent?.eventDateDdmmyyyy
@@ -1146,7 +1199,7 @@ Output strictly valid JSON:
       if (uniqueAllergies.length > 0) {
         dynamicRedFlags.push(`⚠️ Documented Allergies: ${uniqueAllergies.join(', ')}`);
       }
-      if (recentFeeling.some((f) => f.severityColor === 'RED' || (f.feelingScore && f.feelingScore < 4))) {
+      if (recentFeeling.some((f: any) => f.severityColor === 'RED' || (f.feelingScore && f.feelingScore < 4))) {
         dynamicRedFlags.push('⚠️ Patient reported low health score / severe symptoms in recent logs');
       }
       if (dynamicRedFlags.length === 0) {
@@ -1208,7 +1261,7 @@ Output strictly valid JSON:
     const mm = String(timestamp.getMonth() + 1).padStart(2, '0');
     const yyyy = timestamp.getFullYear();
 
-    const diagnosisList = (data.predictedConditions || []).map((c) => c.conditionName);
+    const diagnosisList = (data.predictedConditions || []).map((c: any) => c.conditionName);
     const primaryComplaint = data.socrates?.site
       ? `${data.socrates.site} (${data.socrates.character || 'discomfort'})`
       : 'Clinical Symptom Intake';

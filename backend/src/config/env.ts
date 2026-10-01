@@ -22,6 +22,7 @@ const envSchema = z.object({
   MISTRAL_API_KEY_DOUBLE_CODING: z.string().default(''),
   MISTRAL_API_KEY_CLINICAL_TRIAGE: z.string().default(''),
   GEMINI_API_KEY: z.string().default(''),
+  GEMMA_API_KEY: z.string().default(''),
 
   // Cloudinary (Optional fallback to local)
   CLOUDINARY_CLOUD_NAME: z.string().default(''),
@@ -50,7 +51,7 @@ const envSchema = z.object({
   SMTP_HOST: z.string().default('smtp.gmail.com'),
   SMTP_PORT: z.coerce.number().default(465),
   SMTP_SECURE: z
-    .preprocess((val) => {
+    .preprocess((val: unknown) => {
       if (typeof val === 'string') return val.toLowerCase() === 'true' || val === '1';
       return Boolean(val);
     }, z.boolean())
